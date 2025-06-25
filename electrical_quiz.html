@@ -5,7 +5,6 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Electrical Wiring Quiz</title>
     <script src="https://cdn.tailwindcss.com"></script>
-    <script src="https://cdnjs.cloudflare.com/ajax/libs/html2pdf.js/0.10.1/html2pdf.bundle.min.js"></script>
     <style>
         @import url('https://fonts.googleapis.com/css2?family=Inter:wght@400;700&family=Playfair+Display:wght@400;700&family=Roboto:wght@400;700&display=swap');
 
@@ -179,19 +178,7 @@
             padding-bottom: 60px; /* More space for seal */
         }
 
-        .certificate-ribbon {
-            position: absolute;
-            top: 20px;
-            right: 20px;
-            background-color: #f6ad55;
-            color: white;
-            padding: 8px 18px;
-            font-size: 0.85rem;
-            font-weight: bold;
-            border-radius: 0 10px 0 10px;
-            box-shadow: 0 2px 5px rgba(0,0,0,0.3);
-            z-index: 10;
-        }
+        /* Removed .certificate-ribbon CSS */
 
         .certificate-title {
             font-family: 'Playfair Display', serif;
@@ -311,27 +298,7 @@
             cursor: pointer;
         }
 
-        #downloadPdfBtn {
-            background-color: #38a169; /* Green */
-            color: #fff;
-            margin-top: 20px;
-            padding: 12px 25px;
-            border-radius: 10px;
-            border: none;
-            font-size: 1.1rem;
-            font-weight: bold;
-            cursor: pointer;
-            transition: background-color 0.3s ease, transform 0.2s ease, box-shadow 0.3s ease;
-            box-shadow: 0 4px 8px rgba(0, 0, 0, 0.3);
-            text-transform: uppercase;
-            width: 100%;
-        }
-
-        #downloadPdfBtn:hover {
-            background-color: #2f855a;
-            transform: translateY(-2px);
-            box-shadow: 0 6px 12px rgba(0, 0, 0, 0.4);
-        }
+        /* Removed PDF download button CSS */
     </style>
 </head>
 <body class="selection:bg-blue-300">
@@ -339,6 +306,7 @@
         <h1>Electrical Wiring Knowledge Assessment</h1>
 
         <form id="quizForm" class="quiz-form">
+            <!-- Question 1 -->
             <div class="question-block">
                 <p class="question-text">1. What is the primary object of the Canadian Electrical Code (CEC)?</p>
                 <ul class="options-list">
@@ -369,6 +337,7 @@
                 </ul>
             </div>
 
+            <!-- Question 2 -->
             <div class="question-block">
                 <p class="question-text">2. Which standard exclusively governs electrical work across Canada and is revised every three years?</p>
                 <ul class="options-list">
@@ -399,6 +368,7 @@
                 </ul>
             </div>
 
+            <!-- Question 3 -->
             <div class="question-block">
                 <p class="question-text">3. According to the CEC, what is defined as "a point on a wiring system where current is taken to supply utilization equipment"?</p>
                 <ul class="options-list">
@@ -429,6 +399,7 @@
                 </ul>
             </div>
 
+            <!-- Question 4 -->
             <div class="question-block">
                 <p class="question-text">4. What does "ampacity" refer to in electrical terminology?</p>
                 <ul class="options-list">
@@ -459,6 +430,7 @@
                 </ul>
             </div>
 
+            <!-- Question 5 -->
             <div class="question-block">
                 <p class="question-text">5. What is the minimum conductor size permitted in general house wiring, according to the CEC (excluding specialized low-voltage control circuits)?</p>
                 <ul class="options-list">
@@ -489,6 +461,7 @@
                 </ul>
             </div>
 
+            <!-- Question 6 -->
             <div class="question-block">
                 <p class="question-text">6. According to CEC Rule 8-102, what is the maximum allowed voltage drop percentage in any feeder or branch circuit?</p>
                 <ul class="options-list">
@@ -519,6 +492,7 @@
                 </ul>
             </div>
 
+            <!-- Question 7 -->
             <div class="question-block">
                 <p class="question-text">7. For AC circuits, what color must the outer covering of the grounded (identified) circuit conductor be, according to CEC Rule 4-032?</p>
                 <ul class="options-list">
@@ -549,6 +523,7 @@
                 </ul>
             </div>
 
+            <!-- Question 8 -->
             <div class="question-block">
                 <p class="question-text">8. In electrical installations, what does the term "bonding" mean?</p>
                 <ul class="options-list">
@@ -579,6 +554,7 @@
                 </ul>
             </div>
 
+            <!-- Question 9 -->
             <div class="question-block">
                 <p class="question-text">9. According to CEC Rule 10-114, what is the minimum AWG copper grounding conductor size required for a 200-ampere service?</p>
                 <ul class="options-list">
@@ -610,6 +586,7 @@
                 </ul>
             </div>
 
+            <!-- Question 10 -->
             <div class="question-block">
                 <p class="question-text">10. What is the maximum current imbalance (in milliamperes) that a Class A GFCI is designed to trip at?</p>
                 <ul class="options-list">
@@ -789,7 +766,7 @@
         const generateCertificateBtn = document.getElementById('generateCertificateBtn');
         const profilePhotoInput = document.getElementById('profilePhoto');
         const profilePhotoText = document.getElementById('profilePhotoText');
-        let downloadPdfBtn; // Declare globally or in a scope accessible by renderCertificate
+        let downloadPdfBtn; 
 
         // Dynamically populate questions and options
         function renderQuizQuestions() {
@@ -870,13 +847,13 @@
                 resultMessage.style.color = '#ecc94b'; /* Yellow */
                 certificateFormContainer.classList.add('hidden'); // Hide if previously shown
                 certificateOutput.classList.add('hidden'); // Hide certificate if score drops
-                if (downloadPdfBtn) downloadPdfBtn.classList.add('hidden'); // Hide download button
+                // Removed PDF download button visibility toggle here
             } else {
                 resultMessage.textContent = "Don't give up. It is faded now only. Will be more brighter in the future.";
                 resultMessage.style.color = '#e53e3e'; /* Red */
                 certificateFormContainer.classList.add('hidden'); // Hide if previously shown
                 certificateOutput.classList.add('hidden'); // Hide certificate if score drops
-                if (downloadPdfBtn) downloadPdfBtn.classList.add('hidden'); // Hide download button
+                // Removed PDF download button visibility toggle here
             }
             quizForm.scrollIntoView({ behavior: 'smooth', block: 'start' });
         });
@@ -915,7 +892,6 @@
             }
 
             certificateOutput.innerHTML = `
-                <div class="certificate-ribbon">Certified Electrician</div>
                 <h2 class="certificate-title">CERTIFICATE OF EXCELLENCE</h2>
                 <p class="certificate-subtitle">This esteemed certificate is proudly presented to</p>
                 ${photoHtml}
@@ -937,80 +913,10 @@
                 <p class="certificate-serial">Serial Number: ${serialNumber}</p>
             `;
             
-            // Add download button after rendering certificate HTML
-            if (!downloadPdfBtn) {
-                downloadPdfBtn = document.createElement('button');
-                downloadPdfBtn.id = 'downloadPdfBtn';
-                downloadPdfBtn.textContent = 'Download Certificate as PDF';
-                // Attach event listener immediately after creation
-                downloadPdfBtn.addEventListener('click', downloadCertificateAsPdf); 
-                certificateOutput.appendChild(downloadPdfBtn);
-            } else {
-                downloadPdfBtn.classList.remove('hidden'); // Ensure it's visible if already exists
-                // Re-attach event listener just in case, or ensure it's attached once globally
-                downloadPdfBtn.removeEventListener('click', downloadCertificateAsPdf); // Prevent duplicates
-                downloadPdfBtn.addEventListener('click', downloadCertificateAsPdf);
-            }
-
+            // Removed PDF download button creation and visibility toggle here
 
             certificateOutput.classList.remove('hidden');
             certificateOutput.scrollIntoView({ behavior: 'smooth', block: 'start' });
-        }
-
-        function downloadCertificateAsPdf() {
-            const element = document.getElementById('certificateOutput');
-            const downloadButton = document.getElementById('downloadPdfBtn');
-            if (downloadButton) {
-                downloadButton.style.display = 'none'; // Temporarily hide
-            }
-
-            // Find all images within the element and create promises to wait for their load
-            const images = element.querySelectorAll('img');
-            const imageLoadPromises = Array.from(images).map(img => {
-                return new Promise((resolve, reject) => {
-                    if (img.complete) { // If image is already loaded (cached or base64)
-                        resolve();
-                    } else {
-                        img.onload = resolve;
-                        img.onerror = () => {
-                            console.warn('Image failed to load:', img.src);
-                            resolve(); // Still resolve to not block PDF generation completely
-                        };
-                    }
-                });
-            });
-
-            // Wait for all images to load
-            Promise.all(imageLoadPromises).then(() => {
-                // Add a final small delay to ensure rendering is complete before capture
-                setTimeout(() => {
-                    html2pdf(element, {
-                        margin: 10,
-                        filename: 'Electrical_Wiring_Certificate.pdf',
-                        image: { type: 'jpeg', quality: 0.98 },
-                        html2canvas: { scale: 2, logging: true, dpi: 192, letterRendering: true, useCORS: true },
-                        jsPDF: { unit: 'mm', format: 'a4', orientation: 'portrait' }
-                    }).then(() => {
-                        // Show the button again after PDF generation is complete
-                        if (downloadButton) {
-                            downloadButton.style.display = 'block';
-                        }
-                        console.log('PDF generated successfully.');
-                    }).catch(error => {
-                        console.error('html2pdf generation failed:', error);
-                        // Re-show button on error too
-                        if (downloadButton) {
-                            downloadButton.style.display = 'block';
-                        }
-                    });
-                }, 300); // 300ms delay after all images loaded
-            }).catch(error => {
-                console.error('Error waiting for images to load before PDF generation:', error);
-                // Re-show button even if image loading fails catastrophically
-                if (downloadButton) {
-                    downloadButton.style.display = 'block';
-                }
-            });
         }
     </script>
 </body>
