@@ -1,0 +1,1017 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Electrical Wiring Quiz</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/html2pdf.js/0.10.1/html2pdf.bundle.min.js"></script>
+    <style>
+        @import url('https://fonts.googleapis.com/css2?family=Inter:wght@400;700&family=Playfair+Display:wght@400;700&family=Roboto:wght@400;700&display=swap');
+
+        body {
+            font-family: 'Inter', sans-serif;
+            background-color: #1a202c; /* Dark background */
+            color: #e2e8f0; /* Light text */
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            min-height: 100vh;
+            padding: 20px;
+            box-sizing: border-box;
+            line-height: 1.6;
+        }
+
+        .quiz-container {
+            background-color: #2d3748; /* Slightly lighter dark */
+            border-radius: 15px;
+            box-shadow: 0 10px 20px rgba(0, 0, 0, 0.4);
+            padding: 30px;
+            width: 100%;
+            max-width: 800px;
+            margin: 20px auto;
+        }
+
+        h1 {
+            font-family: 'Playfair Display', serif;
+            font-size: 2.5rem;
+            font-weight: 700;
+            color: #90cdf4; /* Light blue */
+            text-align: center;
+            margin-bottom: 25px;
+        }
+
+        .question-block {
+            background-color: #4a5568; /* Darker grey */
+            border-radius: 10px;
+            padding: 20px;
+            margin-bottom: 20px;
+            box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2);
+        }
+
+        .question-text {
+            font-size: 1.15rem;
+            font-weight: bold;
+            color: #e2e8f0;
+            margin-bottom: 15px;
+        }
+
+        .options-list {
+            list-style: none;
+            padding: 0;
+        }
+
+        .option-item {
+            margin-bottom: 10px;
+        }
+
+        .option-item label {
+            display: flex;
+            align-items: center;
+            cursor: pointer;
+            padding: 8px 12px;
+            border-radius: 8px;
+            transition: background-color 0.2s ease;
+        }
+
+        .option-item label:hover {
+            background-color: #63b3ed20; /* Light blue transparent */
+        }
+
+        .option-item input[type="radio"] {
+            margin-right: 10px;
+            width: 18px;
+            height: 18px;
+            accent-color: #63b3ed; /* Blue accent for radio buttons */
+        }
+
+        .submit-btn {
+            background-color: #63b3ed;
+            color: #1a202c;
+            padding: 12px 25px;
+            border-radius: 10px;
+            border: none;
+            font-size: 1.1rem;
+            font-weight: bold;
+            cursor: pointer;
+            transition: background-color 0.3s ease, transform 0.2s ease, box-shadow 0.3s ease;
+            box-shadow: 0 4px 8px rgba(0, 0, 0, 0.3);
+            text-transform: uppercase;
+            width: 100%;
+            margin-top: 25px;
+        }
+
+        .submit-btn:hover {
+            background-color: #4299e1;
+            transform: translateY(-2px);
+            box-shadow: 0 6px 12px rgba(0, 0, 0, 0.4);
+        }
+
+        .submit-btn:active {
+            transform: translateY(0);
+            box-shadow: 0 2px 4px rgba(0, 0, 0, 0.3);
+        }
+
+        .result-section {
+            background-color: #4a5568;
+            border-radius: 10px;
+            padding: 25px;
+            margin-top: 30px;
+            text-align: center;
+            box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2);
+        }
+
+        .result-message {
+            font-size: 1.4rem;
+            font-weight: bold;
+            margin-bottom: 15px;
+        }
+
+        #scoreDisplay {
+            font-size: 2rem;
+            color: #f6e05e; /* Yellow for score */
+            margin-bottom: 20px;
+        }
+
+        .certificate-form {
+            background-color: #2d3748;
+            padding: 20px;
+            border-radius: 10px;
+            margin-top: 20px;
+        }
+
+        .certificate-form label {
+            display: block;
+            margin-bottom: 8px;
+            font-weight: bold;
+            color: #90cdf4;
+        }
+
+        .certificate-form input[type="text"],
+        .certificate-form input[type="file"] {
+            width: 100%;
+            padding: 10px;
+            margin-bottom: 15px;
+            border-radius: 5px;
+            border: 1px solid #63b3ed;
+            background-color: #4a5568;
+            color: #e2e8f0;
+        }
+        .certificate-form input[type="file"] {
+            padding: 0; /* Remove padding for file input */
+        }
+
+        .certificate-output {
+            background-color: #f7fafc; /* White background for certificate */
+            color: #1a202c; /* Dark text for certificate */
+            padding: 40px;
+            border-radius: 15px;
+            margin-top: 30px;
+            border: 5px solid #63b3ed; /* Blue border */
+            box-shadow: 0 8px 16px rgba(0, 0, 0, 0.5);
+            max-width: 600px;
+            margin-left: auto;
+            margin-right: auto;
+            text-align: center;
+            position: relative;
+            overflow: hidden; /* For certificate styling */
+            background-image: radial-gradient(circle at top left, #ffffff, #e6f0fa); /* Subtle gradient */
+            padding-bottom: 60px; /* More space for seal */
+        }
+
+        .certificate-ribbon {
+            position: absolute;
+            top: 20px;
+            right: 20px;
+            background-color: #f6ad55;
+            color: white;
+            padding: 8px 18px;
+            font-size: 0.85rem;
+            font-weight: bold;
+            border-radius: 0 10px 0 10px;
+            box-shadow: 0 2px 5px rgba(0,0,0,0.3);
+            z-index: 10;
+        }
+
+        .certificate-title {
+            font-family: 'Playfair Display', serif;
+            font-size: 2.8rem;
+            font-weight: 700;
+            color: #2d3748;
+            margin-bottom: 10px;
+            text-shadow: 2px 2px 4px rgba(0,0,0,0.15);
+            letter-spacing: 1px;
+        }
+
+        .certificate-subtitle {
+            font-family: 'Roboto', sans-serif;
+            font-size: 1.2rem;
+            color: #4a5568;
+            margin-bottom: 25px;
+            font-weight: 400;
+        }
+
+        .certificate-person-name {
+            font-family: 'Playfair Display', serif;
+            font-size: 2.2rem;
+            font-weight: 700;
+            color: #63b3ed;
+            margin-top: 25px;
+            margin-bottom: 15px;
+            text-shadow: 1px 1px 3px rgba(0,0,0,0.2);
+        }
+
+        .certificate-details {
+            font-family: 'Roboto', sans-serif;
+            font-size: 1rem;
+            color: #4a5568;
+            margin-bottom: 30px;
+            line-height: 1.5;
+        }
+
+        .certificate-issued-by {
+            font-family: 'Roboto', sans-serif;
+            font-weight: bold;
+            color: #2d3748;
+            margin-top: 35px;
+            margin-bottom: 8px;
+            font-size: 1.1rem;
+        }
+
+        .signature {
+            font-family: 'Playfair Display', serif; /* A more elegant signature font */
+            font-size: 1.6rem;
+            font-weight: 700;
+            color: #38a169; /* Greenish for signature */
+            margin-bottom: 5px;
+            padding-bottom: 5px;
+            border-bottom: 1px dashed #a0aec0;
+            display: inline-block; /* To make border-bottom work on text */
+            width: auto;
+        }
+
+        .degrees-list {
+            font-family: 'Roboto', sans-serif;
+            font-size: 0.9rem;
+            color: #4a5568;
+            list-style: none;
+            padding: 0;
+            margin-bottom: 25px;
+        }
+
+        .degrees-list li {
+            margin-bottom: 2px;
+        }
+
+        .certificate-serial {
+            font-family: 'Roboto', sans-serif;
+            font-size: 0.85rem;
+            color: #a0aec0;
+            margin-top: 25px;
+            position: absolute;
+            bottom: 20px;
+            left: 50%;
+            transform: translateX(-50%);
+            width: 90%;
+        }
+
+        .profile-photo {
+            width: 120px;
+            height: 120px;
+            border-radius: 50%;
+            object-fit: cover;
+            margin: 0 auto 20px auto;
+            border: 4px solid #63b3ed;
+            box-shadow: 0 4px 10px rgba(0,0,0,0.3);
+        }
+        .file-input-wrapper {
+            position: relative;
+            overflow: hidden;
+            display: inline-block;
+            width: 100%;
+        }
+
+        .file-input-button {
+            border: 1px solid #63b3ed;
+            background-color: #4a5568;
+            color: #e2e8f0;
+            padding: 10px 15px;
+            border-radius: 5px;
+            cursor: pointer;
+            width: 100%;
+            text-align: left;
+            margin-bottom: 15px;
+        }
+
+        .file-input-wrapper input[type=file] {
+            position: absolute;
+            left: 0;
+            top: 0;
+            opacity: 0;
+            cursor: pointer;
+        }
+
+        #downloadPdfBtn {
+            background-color: #38a169; /* Green */
+            color: #fff;
+            margin-top: 20px;
+            padding: 12px 25px;
+            border-radius: 10px;
+            border: none;
+            font-size: 1.1rem;
+            font-weight: bold;
+            cursor: pointer;
+            transition: background-color 0.3s ease, transform 0.2s ease, box-shadow 0.3s ease;
+            box-shadow: 0 4px 8px rgba(0, 0, 0, 0.3);
+            text-transform: uppercase;
+            width: 100%;
+        }
+
+        #downloadPdfBtn:hover {
+            background-color: #2f855a;
+            transform: translateY(-2px);
+            box-shadow: 0 6px 12px rgba(0, 0, 0, 0.4);
+        }
+    </style>
+</head>
+<body class="selection:bg-blue-300">
+    <div class="quiz-container">
+        <h1>Electrical Wiring Knowledge Assessment</h1>
+
+        <form id="quizForm" class="quiz-form">
+            <div class="question-block">
+                <p class="question-text">1. What is the primary object of the Canadian Electrical Code (CEC)?</p>
+                <ul class="options-list">
+                    <li class="option-item">
+                        <label>
+                            <input type="radio" name="q1" value="a">
+                            To provide a minimum safety standard for the installation and maintenance of electrical systems.
+                        </label>
+                    </li>
+                    <li class="option-item">
+                        <label>
+                            <input type="radio" name="q1" value="b">
+                            To ensure the economic efficiency of electrical installations.
+                        </label>
+                    </li>
+                    <li class="option-item">
+                        <label>
+                            <input type="radio" name="q1" value="c">
+                            To dictate aesthetic guidelines for residential wiring.
+                        </label>
+                    </li>
+                    <li class="option-item">
+                        <label>
+                            <input type="radio" name="q1" value="d">
+                            To provide maximum standards for electrical system performance.
+                        </label>
+                    </li>
+                </ul>
+            </div>
+
+            <div class="question-block">
+                <p class="question-text">2. Which standard exclusively governs electrical work across Canada and is revised every three years?</p>
+                <ul class="options-list">
+                    <li class="option-item">
+                        <label>
+                            <input type="radio" name="q2" value="a">
+                            The National Building Code of Canada (NBC).
+                        </label>
+                    </li>
+                    <li class="option-item">
+                        <label>
+                            <input type="radio" name="q2" value="b">
+                            The Canadian Electrical Code, Part I (CEC).
+                        </label>
+                    </li>
+                    <li class="option-item">
+                        <label>
+                            <input type="radio" name="q2" value="c">
+                            Underwriters Laboratories of Canada (ULC) standards.
+                        </label>
+                    </li>
+                    <li class="option-item">
+                        <label>
+                            <input type="radio" name="q2" value="d">
+                            The International System of Units (SI).
+                        </label>
+                    </li>
+                </ul>
+            </div>
+
+            <div class="question-block">
+                <p class="question-text">3. According to the CEC, what is defined as "a point on a wiring system where current is taken to supply utilization equipment"?</p>
+                <ul class="options-list">
+                    <li class="option-item">
+                        <label>
+                            <input type="radio" name="q3" value="a">
+                            A junction box.
+                        </label>
+                    </li>
+                    <li class="option-item">
+                        <label>
+                            <input type="radio" name="q3" value="b">
+                            A switch.
+                        </label>
+                    </li>
+                    <li class="option-item">
+                        <label>
+                            <input type="radio" name="q3" value="c">
+                            An outlet.
+                        </label>
+                    </li>
+                    <li class="option-item">
+                        <label>
+                            <input type="radio" name="q3" value="d">
+                            A service entrance.
+                        </label>
+                    </li>
+                </ul>
+            </div>
+
+            <div class="question-block">
+                <p class="question-text">4. What does "ampacity" refer to in electrical terminology?</p>
+                <ul class="options-list">
+                    <li class="option-item">
+                        <label>
+                            <input type="radio" name="q4" value="a">
+                            The maximum voltage a conductor can safely carry.
+                        </label>
+                    </li>
+                    <li class="option-item">
+                        <label>
+                            <input type="radio" name="q4" value="b">
+                            The resistance of a conductor to current flow.
+                        </label>
+                    </li>
+                    <li class="option-item">
+                        <label>
+                            <input type="radio" name="q4" value="c">
+                            The current in amperes a conductor can carry continuously under condition of use without exceeding its temperature rating.
+                        </label>
+                    </li>
+                    <li class="option-item">
+                        <label>
+                            <input type="radio" name="q4" value="d">
+                            The power factor of an electrical circuit.
+                        </label>
+                    </li>
+                </ul>
+            </div>
+
+            <div class="question-block">
+                <p class="question-text">5. What is the minimum conductor size permitted in general house wiring, according to the CEC (excluding specialized low-voltage control circuits)?</p>
+                <ul class="options-list">
+                    <li class="option-item">
+                        <label>
+                            <input type="radio" name="q5" value="a">
+                            No. 16 AWG.
+                        </label>
+                    </li>
+                    <li class="option-item">
+                        <label>
+                            <input type="radio" name="q5" value="b">
+                            No. 14 AWG.
+                        </label>
+                    </li>
+                    <li class="option-item">
+                        <label>
+                            <input type="radio" name="q5" value="c">
+                            No. 12 AWG.
+                        </label>
+                    </li>
+                    <li class="option-item">
+                        <label>
+                            <input type="radio" name="q5" value="d">
+                            No. 18 AWG.
+                        </label>
+                    </li>
+                </ul>
+            </div>
+
+            <div class="question-block">
+                <p class="question-text">6. According to CEC Rule 8-102, what is the maximum allowed voltage drop percentage in any feeder or branch circuit?</p>
+                <ul class="options-list">
+                    <li class="option-item">
+                        <label>
+                            <input type="radio" name="q6" value="a">
+                            2%.
+                        </label>
+                    </li>
+                    <li class="option-item">
+                        <label>
+                            <input type="radio" name="q6" value="b">
+                            3%.
+                        </label>
+                    </li>
+                    <li class="option-item">
+                        <label>
+                            <input type="radio" name="q6" value="c">
+                            5%.
+                        </label>
+                    </li>
+                    <li class="option-item">
+                        <label>
+                            <input type="radio" name="q6" value="d">
+                            10%.
+                        </label>
+                    </li>
+                </ul>
+            </div>
+
+            <div class="question-block">
+                <p class="question-text">7. For AC circuits, what color must the outer covering of the grounded (identified) circuit conductor be, according to CEC Rule 4-032?</p>
+                <ul class="options-list">
+                    <li class="option-item">
+                        <label>
+                            <input type="radio" name="q7" value="a">
+                            Black.
+                        </label>
+                    </li>
+                    <li class="option-item">
+                        <label>
+                            <input type="radio" name="q7" value="b">
+                            Red.
+                        </label>
+                    </li>
+                    <li class="option-item">
+                        <label>
+                            <input type="radio" name="q7" value="c">
+                            White.
+                        </label>
+                    </li>
+                    <li class="option-item">
+                        <label>
+                            <input type="radio" name="q7" value="d">
+                            Green.
+                        </label>
+                    </li>
+                </ul>
+            </div>
+
+            <div class="question-block">
+                <p class="question-text">8. In electrical installations, what does the term "bonding" mean?</p>
+                <ul class="options-list">
+                    <li class="option-item">
+                        <label>
+                            <input type="radio" name="q8" value="a">
+                            Connecting all current-carrying conductors together.
+                        </label>
+                    </li>
+                    <li class="option-item">
+                        <label>
+                            <input type="radio" name="q8" value="b">
+                            A low-impedance path obtained by permanently joining all non-current-carrying metal parts to ensure electrical continuity.
+                        </label>
+                    </li>
+                    <li class="option-item">
+                        <label>
+                            <input type="radio" name="q8" value="c">
+                            Insulating all metal parts from the electrical system.
+                        </label>
+                    </li>
+                    <li class="option-item">
+                        <label>
+                            <input type="radio" name="q8" value="d">
+                            Connecting only the neutral conductor to earth.
+                        </label>
+                    </li>
+                </ul>
+            </div>
+
+            <div class="question-block">
+                <p class="question-text">9. According to CEC Rule 10-114, what is the minimum AWG copper grounding conductor size required for a 200-ampere service?</p>
+                <ul class="options-list">
+                    <li class="option-item">
+                        <label>
+                            <input type="radio" name="q9" value="a">
+                            No. 8 AWG.
+                        </label>
+                    </li>
+                    <li class="option-item">
+                        <label>
+                            <input type="radio" name="q9" value="b">
+                            No. 6 AWG.
+                        </label>
+                    </li>
+                    <li class="option-item">
+                        <label>
+                            <input type="radio" name="q9" value="c">
+                            No. 4 AWG.
+                        </label>
+                    </label>
+                    </li>
+                    <li class="option-item">
+                        <label>
+                            <input type="radio" name="q9" value="d">
+                            No. 3 AWG.
+                        </label>
+                    </li>
+                </ul>
+            </div>
+
+            <div class="question-block">
+                <p class="question-text">10. What is the maximum current imbalance (in milliamperes) that a Class A GFCI is designed to trip at?</p>
+                <ul class="options-list">
+                    <li class="option-item">
+                        <label>
+                            <input type="radio" name="q10" value="a">
+                            4 mA.
+                        </label>
+                    </li>
+                    <li class="option-item">
+                        <label>
+                            <input type="radio" name="q10" value="b">
+                            6 mA.
+                        </label>
+                    </li>
+                    <li class="option-item">
+                        <label>
+                            <input type="radio" name="q10" value="c">
+                            10 mA.
+                        </label>
+                    </li>
+                    <li class="option-item">
+                        <label>
+                            <input type="radio" name="q10" value="d">
+                            20 mA.
+                        </label>
+                    </li>
+                </ul>
+            </div>
+
+            <button type="submit" class="submit-btn">Submit Quiz</button>
+        </form>
+
+        <div id="resultSection" class="result-section hidden">
+            <p class="result-message" id="resultMessage"></p>
+            <p id="scoreDisplay"></p>
+            <div id="certificateFormContainer" class="certificate-form hidden">
+                <p class="text-white text-lg mb-4">Congratulations! To receive your certificate, please provide the following details:</p>
+                <label for="fullName">Full Name:</label>
+                <input type="text" id="fullName" placeholder="Your Name" required>
+
+                <label for="idNumber">Passport/ID Card Number:</label>
+                <input type="text" id="idNumber" placeholder="ID Number" required>
+
+                <label for="profilePhoto">Profile Photo (Optional):</label>
+                <div class="file-input-wrapper">
+                    <input type="file" id="profilePhoto" accept="image/*">
+                    <span class="file-input-button" id="profilePhotoText">Upload Photo</span>
+                </div>
+
+                <button type="button" id="generateCertificateBtn" class="submit-btn">Generate Certificate</button>
+            </div>
+            <div id="certificateOutput" class="certificate-output hidden"></div>
+        </div>
+    </div>
+
+    <script>
+        const questions = [
+            {
+                id: "q1",
+                answer: "a",
+                text: "What is the primary object of the Canadian Electrical Code (CEC)?",
+                options: [
+                    "To provide a minimum safety standard for the installation and maintenance of electrical systems.",
+                    "To ensure the economic efficiency of electrical installations.",
+                    "To dictate aesthetic guidelines for residential wiring.",
+                    "To provide maximum standards for electrical system performance."
+                ]
+            },
+            {
+                id: "q2",
+                answer: "b",
+                text: "Which standard exclusively governs electrical work across Canada and is revised every three years?",
+                options: [
+                    "The National Building Code of Canada (NBC).",
+                    "The Canadian Electrical Code, Part I (CEC).",
+                    "Underwriters Laboratories of Canada (ULC) standards.",
+                    "The International System of Units (SI)."
+                ]
+            },
+            {
+                id: "q3",
+                answer: "c",
+                text: "According to the CEC, what is defined as 'a point on a wiring system where current is taken to supply utilization equipment'?",
+                options: [
+                    "A junction box.",
+                    "A switch.",
+                    "An outlet.",
+                    "A service entrance."
+                ]
+            },
+            {
+                id: "q4",
+                answer: "c",
+                text: "What does 'ampacity' refer to in electrical terminology?",
+                options: [
+                    "The maximum voltage a conductor can safely carry.",
+                    "The resistance of a conductor to current flow.",
+                    "The current in amperes a conductor can carry continuously under condition of use without exceeding its temperature rating.",
+                    "The power factor of an electrical circuit."
+                ]
+            },
+            {
+                id: "q5",
+                answer: "b",
+                text: "What is the minimum conductor size permitted in general house wiring, according to the CEC (excluding specialized low-voltage control circuits)?",
+                options: [
+                    "No. 16 AWG.",
+                    "No. 14 AWG.",
+                    "No. 12 AWG.",
+                    "No. 18 AWG."
+                ]
+            },
+            {
+                id: "q6",
+                answer: "b",
+                text: "According to CEC Rule 8-102, what is the maximum allowed voltage drop percentage in any feeder or branch circuit?",
+                options: [
+                    "2%.",
+                    "3%.",
+                    "5%.",
+                    "10%."
+                ]
+            },
+            {
+                id: "q7",
+                answer: "c",
+                text: "For AC circuits, what color must the outer covering of the grounded (identified) circuit conductor be, according to CEC Rule 4-032?",
+                options: [
+                    "Black.",
+                    "Red.",
+                    "White.",
+                    "Green."
+                ]
+            },
+            {
+                id: "q8",
+                answer: "b",
+                text: "In electrical installations, what does the term 'bonding' mean?",
+                options: [
+                    "Connecting all current-carrying conductors together.",
+                    "A low-impedance path obtained by permanently joining all non-current-carrying metal parts to ensure electrical continuity.",
+                    "Insulating all metal parts from the electrical system.",
+                    "Connecting only the neutral conductor to earth."
+                ]
+            },
+            {
+                id: "q9",
+                answer: "b",
+                text: "According to CEC Rule 10-114, what is the minimum AWG copper grounding conductor size required for a 200-ampere service?",
+                options: [
+                    "No. 8 AWG.",
+                    "No. 6 AWG.",
+                    "No. 4 AWG.",
+                    "No. 3 AWG."
+                ]
+            },
+            {
+                id: "q10",
+                answer: "b",
+                text: "What is the maximum current imbalance (in milliamperes) that a Class A GFCI is designed to trip at?",
+                options: [
+                    "4 mA.",
+                    "6 mA.",
+                    "10 mA.",
+                    "20 mA."
+                ]
+            }
+        ];
+
+        const quizForm = document.getElementById('quizForm');
+        const resultSection = document.getElementById('resultSection');
+        const resultMessage = document.getElementById('resultMessage');
+        const scoreDisplay = document.getElementById('scoreDisplay');
+        const certificateFormContainer = document.getElementById('certificateFormContainer');
+        const certificateOutput = document.getElementById('certificateOutput');
+        const generateCertificateBtn = document.getElementById('generateCertificateBtn');
+        const profilePhotoInput = document.getElementById('profilePhoto');
+        const profilePhotoText = document.getElementById('profilePhotoText');
+        let downloadPdfBtn; // Declare globally or in a scope accessible by renderCertificate
+
+        // Dynamically populate questions and options
+        function renderQuizQuestions() {
+            const quizForm = document.getElementById('quizForm');
+            quizForm.innerHTML = ''; // Clear existing questions
+
+            questions.forEach((q, index) => {
+                const questionBlock = document.createElement('div');
+                questionBlock.classList.add('question-block');
+                
+                const questionText = document.createElement('p');
+                questionText.classList.add('question-text');
+                questionText.innerHTML = `${index + 1}. ${q.text}`;
+                questionBlock.appendChild(questionText);
+
+                const optionsList = document.createElement('ul');
+                optionsList.classList.add('options-list');
+
+                q.options.forEach((optionText, optionIndex) => {
+                    const optionItem = document.createElement('li');
+                    optionItem.classList.add('option-item');
+                    
+                    const label = document.createElement('label');
+                    const input = document.createElement('input');
+                    input.type = 'radio';
+                    input.name = q.id;
+                    input.value = String.fromCharCode(97 + optionIndex); // a, b, c, d
+                    
+                    label.appendChild(input);
+                    label.appendChild(document.createTextNode(optionText));
+                    optionItem.appendChild(label);
+                    optionsList.appendChild(optionItem);
+                });
+                questionBlock.appendChild(optionsList);
+                quizForm.appendChild(questionBlock);
+            });
+
+            const submitBtn = document.createElement('button');
+            submitBtn.type = 'submit';
+            submitBtn.classList.add('submit-btn');
+            submitBtn.textContent = 'Submit Quiz';
+            quizForm.appendChild(submitBtn);
+        }
+
+        renderQuizQuestions(); // Call to render questions when script loads
+
+
+        profilePhotoInput.addEventListener('change', function() {
+            if (this.files && this.files.length > 0) {
+                profilePhotoText.textContent = this.files[0].name;
+            } else {
+                profilePhotoText.textContent = 'Upload Photo';
+            }
+        });
+
+        quizForm.addEventListener('submit', function(event) {
+            event.preventDefault();
+            let score = 0;
+            const totalQuestions = questions.length;
+
+            questions.forEach(q => {
+                const selectedOption = document.querySelector(`input[name="${q.id}"]:checked`);
+                if (selectedOption && selectedOption.value === q.answer) {
+                    score++;
+                }
+            });
+
+            const percentage = (score / totalQuestions) * 100;
+            scoreDisplay.textContent = `You scored ${score} out of ${totalQuestions} (${percentage.toFixed(2)}%)`;
+            resultSection.classList.remove('hidden');
+
+            if (percentage >= 80) {
+                resultMessage.textContent = "CONGRATULATIONS! PEng very soon!";
+                resultMessage.style.color = '#48bb78'; /* Green */
+                certificateFormContainer.classList.remove('hidden');
+            } else if (percentage >= 40) {
+                resultMessage.textContent = "Harder to get your PEng.";
+                resultMessage.style.color = '#ecc94b'; /* Yellow */
+                certificateFormContainer.classList.add('hidden'); // Hide if previously shown
+                certificateOutput.classList.add('hidden'); // Hide certificate if score drops
+                if (downloadPdfBtn) downloadPdfBtn.classList.add('hidden'); // Hide download button
+            } else {
+                resultMessage.textContent = "Don't give up. It is faded now only. Will be more brighter in the future.";
+                resultMessage.style.color = '#e53e3e'; /* Red */
+                certificateFormContainer.classList.add('hidden'); // Hide if previously shown
+                certificateOutput.classList.add('hidden'); // Hide certificate if score drops
+                if (downloadPdfBtn) downloadPdfBtn.classList.add('hidden'); // Hide download button
+            }
+            quizForm.scrollIntoView({ behavior: 'smooth', block: 'start' });
+        });
+
+        generateCertificateBtn.addEventListener('click', function() {
+            const fullName = document.getElementById('fullName').value.trim();
+            const idNumber = document.getElementById('idNumber').value.trim();
+            const profilePhotoFile = profilePhotoInput.files[0];
+
+            if (!fullName || !idNumber) {
+                resultMessage.textContent = "Please fill in all required fields (Full Name, Passport/ID Number).";
+                resultMessage.style.color = '#e53e3e';
+                return;
+            }
+
+            // Generate a unique serial number
+            const serialNumber = `CERT-${Date.now()}-${Math.floor(Math.random() * 10000)}`;
+
+            let photoDataUrl = '';
+            if (profilePhotoFile) {
+                const reader = new FileReader();
+                reader.onload = function(e) {
+                    photoDataUrl = e.target.result;
+                    renderCertificate(fullName, idNumber, serialNumber, photoDataUrl);
+                };
+                reader.readAsDataURL(profilePhotoFile);
+            } else {
+                renderCertificate(fullName, idNumber, serialNumber, photoDataUrl);
+            }
+        });
+
+        function renderCertificate(fullName, idNumber, serialNumber, profilePhotoDataUrl) {
+            let photoHtml = '';
+            if (profilePhotoDataUrl) {
+                photoHtml = `<img src="${profilePhotoDataUrl}" alt="Profile Photo" class="profile-photo mx-auto mb-4">`;
+            }
+
+            certificateOutput.innerHTML = `
+                <div class="certificate-ribbon">Certified Electrician</div>
+                <h2 class="certificate-title">CERTIFICATE OF EXCELLENCE</h2>
+                <p class="certificate-subtitle">This esteemed certificate is proudly presented to</p>
+                ${photoHtml}
+                <p class="certificate-person-name">${fullName}</p>
+                <p class="certificate-details">
+                    for demonstrating exceptional proficiency and dedication in the field of Electrical Wiring, achieving<br>
+                    an outstanding score in the Residential Knowledge Assessment. This achievement reflects a deep<br>
+                    understanding of critical electrical principles and safety standards.<br><br>
+                    ID Number: <strong>${idNumber}</strong>
+                </p>
+                <p class="certificate-issued-by">Awarded by:</p>
+                <p class="signature">Hein Htet Lin (Henry)</p>
+                <ul class="degrees-list">
+                    <li>Master of Engineering (Electrical and Computer Engineering), Canada</li>
+                    <li>Bachelor of Engineering (Electrical Power), Myanmar</li>
+                    <li>Specialist Diploma in M&E Coordination, Singapore</li>
+                    <li>PMP Certificate, PMI, US</li>
+                </ul>
+                <p class="certificate-serial">Serial Number: ${serialNumber}</p>
+            `;
+            
+            // Add download button after rendering certificate HTML
+            if (!downloadPdfBtn) {
+                downloadPdfBtn = document.createElement('button');
+                downloadPdfBtn.id = 'downloadPdfBtn';
+                downloadPdfBtn.textContent = 'Download Certificate as PDF';
+                // Attach event listener immediately after creation
+                downloadPdfBtn.addEventListener('click', downloadCertificateAsPdf); 
+                certificateOutput.appendChild(downloadPdfBtn);
+            } else {
+                downloadPdfBtn.classList.remove('hidden'); // Ensure it's visible if already exists
+                // Re-attach event listener just in case, or ensure it's attached once globally
+                downloadPdfBtn.removeEventListener('click', downloadCertificateAsPdf); // Prevent duplicates
+                downloadPdfBtn.addEventListener('click', downloadCertificateAsPdf);
+            }
+
+
+            certificateOutput.classList.remove('hidden');
+            certificateOutput.scrollIntoView({ behavior: 'smooth', block: 'start' });
+        }
+
+        function downloadCertificateAsPdf() {
+            const element = document.getElementById('certificateOutput');
+            const downloadButton = document.getElementById('downloadPdfBtn');
+            if (downloadButton) {
+                downloadButton.style.display = 'none'; // Temporarily hide
+            }
+
+            // Find all images within the element and create promises to wait for their load
+            const images = element.querySelectorAll('img');
+            const imageLoadPromises = Array.from(images).map(img => {
+                return new Promise((resolve, reject) => {
+                    if (img.complete) { // If image is already loaded (cached or base64)
+                        resolve();
+                    } else {
+                        img.onload = resolve;
+                        img.onerror = () => {
+                            console.warn('Image failed to load:', img.src);
+                            resolve(); // Still resolve to not block PDF generation completely
+                        };
+                    }
+                });
+            });
+
+            // Wait for all images to load
+            Promise.all(imageLoadPromises).then(() => {
+                // Add a final small delay to ensure rendering is complete before capture
+                setTimeout(() => {
+                    html2pdf(element, {
+                        margin: 10,
+                        filename: 'Electrical_Wiring_Certificate.pdf',
+                        image: { type: 'jpeg', quality: 0.98 },
+                        html2canvas: { scale: 2, logging: true, dpi: 192, letterRendering: true, useCORS: true },
+                        jsPDF: { unit: 'mm', format: 'a4', orientation: 'portrait' }
+                    }).then(() => {
+                        // Show the button again after PDF generation is complete
+                        if (downloadButton) {
+                            downloadButton.style.display = 'block';
+                        }
+                        console.log('PDF generated successfully.');
+                    }).catch(error => {
+                        console.error('html2pdf generation failed:', error);
+                        // Re-show button on error too
+                        if (downloadButton) {
+                            downloadButton.style.display = 'block';
+                        }
+                    });
+                }, 300); // 300ms delay after all images loaded
+            }).catch(error => {
+                console.error('Error waiting for images to load before PDF generation:', error);
+                // Re-show button even if image loading fails catastrophically
+                if (downloadButton) {
+                    downloadButton.style.display = 'block';
+                }
+            });
+        }
+    </script>
+</body>
+</html>
